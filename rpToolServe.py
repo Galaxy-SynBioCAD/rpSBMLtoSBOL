@@ -35,9 +35,9 @@ api = Api(app)
 
 
 def stamp(data, status=1):
-    appinfo = {'app': 'rpSBMLtoSBOL', 'version': '1.0',
+    appinfo = {'app': 'rpSBMLtoSBOL', 'version': '0.1',
                'author': 'Neil Swanston, Melchior du Lac',
-               'organization': 'Manchecter University, BRS',
+               'organization': 'Manchester University, BRS',
                'time': datetime.now().isoformat(),
                'status': status}
     out = appinfo.copy()

@@ -7,6 +7,9 @@ sbml2sbol is licensed under the MIT License.
 To view a copy of this license, visit <http://opensource.org/licenses/MIT/>.
 
 @author:  neilswainston
+
+#To update merge with: https://github.com/neilswainston/SbmlToSbol/blob/master/sbml2sbol/converter.py
+
 '''
 # pylint: disable=invalid-name
 # pylint: disable=too-many-arguments
