@@ -24,13 +24,7 @@ Advanced options:
 To build the image using the Dockerfile, use the following command:
 
 ```
-docker build -t brsynth/rpsbmltosbml-rest:dev .
-```
-
-To run the service in the localhost:
-
-```
-docker run -p 8688:8888 brsynth/rpsbmltosbml-rest:dev
+docker build -t brsynth/rpsbmltosbml-standalone .
 ```
 
 ### Prerequisites
