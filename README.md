@@ -22,7 +22,7 @@ Advanced options:
 To build the image using the Dockerfile, use the following command:
 
 ```
-docker build -t brsynth/rpsbmltosbml-standalone:dev .
+docker build -t brsynth/rpsbmltosbml-standalone .
 ```
 
 ### Running the tests
