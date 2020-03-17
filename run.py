@@ -19,7 +19,7 @@ import docker
 #
 def main(inputfile, input_format, output, rbs, max_prot_per_react, pathway_id):
     docker_client = docker.from_env()
-    image_str = 'brsynth/rpsbmltosbol-standalone:dev'
+    image_str = 'brsynth/rpsbmltosbol-standalone'
     try:
         image = docker_client.images.get(image_str)
     except docker.errors.ImageNotFound:
