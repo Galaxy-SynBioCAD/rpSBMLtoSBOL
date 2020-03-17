@@ -30,7 +30,7 @@ docker build -t brsynth/rpsbmltosbml-standalone:dev .
 To run the test, untar the test.tar.xz file and run the following command:
 
 ```
-python tool_rpSBMLtoSBOL.py -input test/test_rpGlobalScore.tar  -input_format tar -output test/test_sbol.tar
+python run.py -input test/test_rpGlobalScore.tar  -input_format tar -output test/test_sbol.tar
 ```
 
 ## Prerequisites
