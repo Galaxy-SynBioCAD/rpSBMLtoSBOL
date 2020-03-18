@@ -17,6 +17,10 @@ Advanced options:
 
 * **output**: (string) Path to the output SBOL file
 
+## Dependencies
+
+* Base Docker Image: [brsynth/rpBase](https://hub.docker.com/r/brsynth/rpbase)
+
 ## Installing
 
 To build the image using the Dockerfile, use the following command:
