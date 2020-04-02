@@ -41,8 +41,8 @@ if __name__ == "__main__":
                                         params.pathway_id)
     elif params.input_format=='sbml':
         #make the tar.xz 
-        with tempfile.temporarydirectory() as tmpoutputfolder:
-            input_tar = tmpoutputfolder+'/tmp_input.tar.xz'
+        with tempfile.TemporaryDirectory as tmpOutputFolder:
+            input_tar = tmpOutputFolder+'/tmp_input.tar.xz'
             with tarfile.open(input_tar, mode='w:xz') as tf:
                 info = tarfile.tarinfo('single.rpsbml.xml') #need to change the name since galaxy creates .dat files
                 info.size = os.path.getsize(params.input)
