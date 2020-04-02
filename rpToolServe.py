@@ -18,6 +18,5 @@ def runRPSBMLtoSBOL_hdd(inputTar,
         tar = tarfile.open(inputTar, mode='r')
         tar.extractall(path=tmpInputFolder)
         tar.close()
-        logging.warning(glob.glob(tmpInputFolder+'/*'))
         rpTool.convert(tmpInputFolder, outputSBOL, rbs, max_prot_per_react, tirs, pathway_id)
     return True

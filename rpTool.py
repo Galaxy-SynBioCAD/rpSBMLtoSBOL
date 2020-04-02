@@ -13,8 +13,8 @@ To view a copy of this license, visit <http://opensource.org/licenses/MIT/>.
 from collections import defaultdict
 import os.path
 import sys
-import logging
 import glob
+import logging
 
 import libsbml
 from sbol import setHomespace, ComponentDefinition, Config, Document, \
@@ -50,9 +50,8 @@ def _read_sbml(sbml_filepaths, pathway_id):
     rct_uniprot = defaultdict(list)
 
     #for filename in io_utils.get_filenames(sbml_filepaths):
-        #logging.warning(filename)
     for filename in glob.glob(sbml_filepaths+'/*.xml'):
-        logging.warning(filename)
+        #logging.warning(filename)
         document = libsbml.readSBMLFromFile(filename)
         rp_pathway = document.model.getPlugin('groups').getGroup(pathway_id)
 
