@@ -18,5 +18,8 @@ def runRPSBMLtoSBOL_hdd(inputTar,
         tar = tarfile.open(inputTar, mode='r')
         tar.extractall(path=tmpInputFolder)
         tar.close()
+        if len(glob.glob(tmpInputFolder+'/*'))==0:
+            logging.error('Input file is empty')
+            return False
         rpTool.convert(tmpInputFolder, outputSBOL, rbs, max_prot_per_react, tirs, pathway_id)
     return True
