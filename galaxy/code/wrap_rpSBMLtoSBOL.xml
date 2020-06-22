@@ -1,0 +1,95 @@
+<tool id="rpSBMLtoSBOL" name="SBML to SBOL" version="1.0">
+  <description>Convert a SBML file, or a collection in the form of a TAR, into a single SBOL file</description>
+  <requirements>
+    <container type="docker">brsynth/rpsbmltosbol-standalone:dev</container>
+  </requirements>
+  <stdio>
+		<regex match="WARNING:" level="warning" />
+		<regex match="ERROR:" level="error" />
+	</stdio>
+  <command detect_errors="exit_code"><![CDATA[
+    '$__tool_directory__/tool_rpSBMLtoSBOL.py' -input '$input_type.input' -output '$output' -input_format '$input_type.input_format' -rbs '$include_rbs' -tirs '$rbs_strengths' -max_prot_per_react '$adv.max_prot_per_react' -pathway_id '$adv.pathway_id' -topX '$adv.topX'
+  ]]></command>
+  <inputs>
+		<conditional name="input_type">
+			<param name="input_format" type="select" label="Input/output format:">
+				<option value="tar">TAR</option>
+				<option value="sbml" selected="True">SBML</option>
+			</param>
+			<when value="tar">
+				<param name="input" type="data" format="tar" label="Input file" />
+			</when>
+			<when value="sbml">
+				<param name="input" type="data" format="sbml" label="Input file" />
+			</when>
+		</conditional>
+    <param name="include_rbs" type="boolean" truevalue="True" falsevalue="False" checked="true" label="Include RBS?" />
+    <param name="rbs_strengths" type="text" value="10000,20000,30000" label="RBS strengths" />
+		<section name="adv" title="Advanced Options" expanded="false">
+			<param name="pathway_id" type="text" value="rp_pathway" label="SBML heterologous pathway ID" />
+      <param name="max_prot_per_react" type="integer" value="3" label="Max enzymes per reaction" />
+      <param name="topX" type="integer" value="3" label="Top pathways to convert to SBOL" />
+		</section>
+  </inputs>
+  <outputs>
+    <data name="output" format="xml" label="SBOL" />
+  </outputs>
+  <help><![CDATA[
+SBML to SBOL
+================
+
+Convert a single or multiple SBML files to SBOL using the UNIPROT id's from Selenzyme. Here the Ribosome Binding Site (RBS) strengths are characterized to be later used by the PartsGenie node.
+
+Input
+-----
+
+Required:
+
+
+* **input**\ : (string) Path to either tar.xz input collection of SBML files or a single SBML file.
+* **input_format**\ : (string) Format of the input
+* **include_rbs**\ : (boolean, default: True) Add or not RBS
+* **rbs_strengths**\ : (string) List of strengths as int in string format
+
+Advanced options:
+
+
+* **pathway_id**\ : (string, default: rp_pathway) The SBML groups ID (defined in rpReader) that points to the heterologous reactions and chemical species.
+* **max_prot_per_react**\ : (integer, default: 3) Include the Ribosome Biding Site output in the SBOL
+
+Output
+------
+
+
+* **output**\ : (string) Path to the output SBOL file
+
+Project Links
+------------------
+
+* `GitHub <https://github.com/neilswainston/SbmlToSbol>`_
+
+Version
+----------
+
+v0.1
+
+Authors
+-------
+
+* **Neil Swainston**
+* Melchior du Lac
+
+License
+-------
+
+`MIT <https://raw.githubusercontent.com/neilswainston/SbmlToSbol/master/LICENSE>`_
+
+Acknowledgments
+---------------
+
+
+* Thomas Duigou
+* Joan Hérisson
+
+]]></help>
+</tool>
