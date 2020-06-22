@@ -1,4 +1,3 @@
-#!/usr/bin/python
 '''
 sbml2sbol (c) University of Liverpool. 2019
 
@@ -7,9 +6,6 @@ sbml2sbol is licensed under the MIT License.
 To view a copy of this license, visit <http://opensource.org/licenses/MIT/>.
 
 @author:  neilswainston
-
-#To update merge with: https://github.com/neilswainston/SbmlToSbol/blob/master/sbml2sbol/converter.py
-
 '''
 # pylint: disable=invalid-name
 # pylint: disable=too-many-arguments
@@ -17,7 +13,6 @@ To view a copy of this license, visit <http://opensource.org/licenses/MIT/>.
 from collections import defaultdict
 import os.path
 import sys
-import logging
 import glob
 
 import libsbml
@@ -52,11 +47,12 @@ def convert(sbml_filepaths, sbol_filename, rbs, max_prot_per_react=3,
 def _read_sbml(sbml_filepaths, pathway_id):
     '''Read SBML.'''
     rct_uniprot = defaultdict(list)
+
     #for filename in io_utils.get_filenames(sbml_filepaths):
-    for filename in glob.glob(sbml_filepaths+'/*'):
+    for filename in glob.glob(sbml_filepaths+'/*.xml'):
         document = libsbml.readSBMLFromFile(filename)
         rp_pathway = document.model.getPlugin('groups').getGroup(pathway_id)
-        
+
         for member in rp_pathway.getListOfMembers():
             if not member.getIdRef() == 'targetSink':
                 # Extract reaction annotation:
@@ -73,6 +69,7 @@ def _read_sbml(sbml_filepaths, pathway_id):
                             sel_ann = ann.getChild(j)
                             rct_uniprot[member.getIdRef()].append(
                                 sel_ann.getName())
+
     return rct_uniprot
 
 
@@ -116,7 +113,7 @@ def _add_gene(doc, uniprot_id, tir, _5p_assembly, _3p_assembly):
     if tir:
         rbs = ComponentDefinition('%s_%s_rbs' % (uniprot_id, tir))
         rbs.roles = SO_RBS
-        doc.addComponentDefinition(rbs)
+        rbs = _add_comp_def(doc, rbs)
     else:
         rbs = None
 
@@ -131,15 +128,27 @@ def _add_gene(doc, uniprot_id, tir, _5p_assembly, _3p_assembly):
     #            '0', '1',
     #            'http://identifiers.org/uniprot/%s' % uniprot_id)
 
-    doc.addComponentDefinition(cds)
+    # Add ComponentDefintion if it has not yet been added:
+    cds = _add_comp_def(doc, cds)
 
     # Assemble gene from features:
-    doc.addComponentDefinition(gene)
+    gene = _add_comp_def(doc, gene)
 
     assembly = [_5p_assembly, rbs, cds, _3p_assembly] if rbs \
         else [_5p_assembly, cds, _3p_assembly]
 
     gene.assemblePrimaryStructure(assembly)
+
+
+def _add_comp_def(doc, comp_def):
+    '''Add component definition, checking if this already exists.'''
+    if comp_def.identity not in [comp_def.identity
+                                 for comp_def in doc.componentDefinitions]:
+        doc.addComponentDefinition(comp_def)
+    else:
+        comp_def = doc.getComponentDefinition(comp_def.identity)
+
+    return comp_def
 
 
 def main(args):
