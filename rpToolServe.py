@@ -17,6 +17,27 @@ def runRPSBMLtoSBOL_hdd(inputTar,
                         tirs=None, 
                         topX=5,
                         pathway_id='rp_pathway'):
+    """Convert a collection of rpSBML into a collection of SBOL
+
+    :param inputTar: The path to the TAR collection of rpSBML
+    :param outputSBOL: The path to the output TAR collection of SBOL
+    :param rbs: Calculate or not the RBS strength
+    :param max_prot_per_react: The maximum number of proteins per reaction (Default: 3)
+    :param tirs: The RBS strength values
+    :param topX: The top number of UNIPROT id's per reaction to use
+    :param pathway_id: The Groups id of the heterologous pathway
+
+    :type inputTar: str
+    :type outputSBOL: str
+    :type rbs: bool
+    :type max_prot_per_react: int
+    :type tirs: list
+    :type topX: int
+    :type pathway_id: str
+
+    :rtype: bool
+    :return: The success or failure of the function
+    """
     logging.info(rbs)
     with tempfile.TemporaryDirectory() as tmpInputFolder:
         tar = tarfile.open(inputTar, mode='r')
